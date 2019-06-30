@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.CookAgainActivity"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/icon_cook"
+                android:layout_gravity="center_horizontal"
+                />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bạn muốn nấu lại món nào nhất?"
+                android:textSize="28sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thêm vào thực đơn món bạn muốn nấu lại lần nữa"
+                android:layout_marginTop="16dp"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                />
+
+
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/background_linear"
+            android:layout_marginTop="8dp"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:orientation="vertical"
+            >
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đã nấu"
+                android:textSize="30sp"
+                android:drawableLeft="@drawable/icon_pot"
+                android:gravity="center_vertical"
+                android:drawablePadding="16dp"
+                />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nhật ký bếp của bạn"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                />
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_food"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        <Button
+                android:id="@+id/btnAddToMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thêm vô thực đơn"
+                android:background="@drawable/button_border"
+                android:paddingHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:textColor="@android:color/white"
+                />
+
+
+    </LinearLayout>
+</LinearLayout>

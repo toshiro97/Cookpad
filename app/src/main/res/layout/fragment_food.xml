@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+        >
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/white"
+
+                >
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_search"
+                    android:drawableLeft="@drawable/ic_search_white_24dp"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="8dp"
+                    android:hint="Tên nguyên liệu, món ăn ....."
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/ic_keyboard_voice_black_24dp"
+                    />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="5dp"
+          android:background="@drawable/toolbar_dropshadow"/>
+
+</LinearLayout>

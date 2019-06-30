@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Toolbar -->
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@android:color/white"
+                    android:paddingRight="8dp"
+
+                    >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingVertical="5dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Cộng đồng"
+                            android:layout_weight="1"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+
+                            />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/btnAvatar"
+                            android:layout_width="52dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/icon_cook"
+                            android:paddingVertical="8dp"
+                            android:layout_centerVertical="true"
+                            />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="5dp"
+              android:background="@drawable/toolbar_dropshadow"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                android:paddingHorizontal="16dp"
+                android:background="#FAF6F6"
+                >
+
+            <LinearLayout
+                    android:id="@+id/btnKitchen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_linear"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingVertical="24dp"
+
+                    >
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_group_brown_24dp"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tương tác bếp"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/btnBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_linear"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingVertical="24dp"
+                    android:layout_marginHorizontal="16dp"
+                    >
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_unarchive_black_24dp"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hộp thư"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/btnMessenger"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_linear"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingVertical="24dp"
+                    >
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_message_black_24dp"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trò chuyện"
+                        />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:background="#FAF6F6"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@android:color/white"
+                android:layout_marginTop="16dp"
+
+                >
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:src="@drawable/img_group"
+                    />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Xem ai đang nấu món ăn của bạn nào!"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/black"
+                    android:paddingHorizontal="54dp"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:textStyle="bold"
+                    />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Tương tác từ cộng đồng với các món của bạn sẽ xuất hiện ở đây"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="54dp"
+                    android:textSize="18sp"
+                    android:textStyle="italic"
+                    />
+
+            <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thêm món mới"
+                    android:background="@drawable/background_recycler"
+                    android:paddingHorizontal="16dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="16dp"
+                    />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".view.SettingActivity"
+        android:orientation="vertical"
+        >
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/white"
+                android:paddingRight="8dp"
+
+                >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="5dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    >
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cài đặt"
+                        android:layout_weight="1"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="5dp"
+          android:background="@drawable/toolbar_dropshadow"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            >
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/icon_cook"
+
+                />
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_gravity="center_vertical"
+                >
+            <TextView
+                    android:id="@+id/tvNameUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hoàng Khắc Phùng Hưng"
+                    android:textSize="24sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    />
+
+            <TextView
+                    android:id="@+id/tvViewChicken"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xem trang bếp"
+                    android:textSize="24sp"
+                    android:textStyle="italic"
+                    />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="16dp"
+                >
+            <TextView
+                    android:id="@+id/tvEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sửa thông tin"
+                    android:textSize="18sp"
+                    />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@android:color/black"
+                    android:layout_marginVertical="16dp"
+                    />
+
+            <TextView
+                    android:id="@+id/tvNotification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Điều chỉnh chức năng thông báo"
+                    android:textSize="18sp"
+                    />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@android:color/black"
+                    android:layout_marginVertical="16dp"
+                    />
+
+            <TextView
+                    android:id="@+id/tvSecurity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Điều khoản bảo mật"
+                    android:textSize="18sp"
+                    />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@android:color/black"
+                    android:layout_marginVertical="16dp"
+                    />
+            <TextView
+                    android:id="@+id/tvService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Điều khoản dịch vụ"
+                    android:textSize="18sp"
+                    />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@android:color/black"
+                    android:layout_marginVertical="16dp"
+                    />
+
+            <TextView
+                    android:id="@+id/tvGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hướng dẫn dành cho cộng đồng"
+                    android:textSize="18sp"
+                    />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@android:color/black"
+                    android:layout_marginVertical="16dp"
+                    />
+
+            <TextView
+                    android:id="@+id/tvFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Góp ý"
+                    android:textSize="18sp"
+                    />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@android:color/black"
+                    android:layout_marginVertical="16dp"
+                    />
+
+            <TextView
+                    android:id="@+id/tvCookpad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Về Cookpad"
+                    android:textSize="18sp"
+                    />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginTop="24dp"
+                    />
+
+            <Button
+                    android:id="@+id/tvLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thoát"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="16dp"
+
+                    />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

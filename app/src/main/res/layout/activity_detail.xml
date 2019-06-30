@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        >
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/main.appbar"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:fitsSystemWindows="true"
+            >
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/main.collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleMarginEnd="64dp"
+                >
+
+            <ImageView
+                    android:id="@+id/main.backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true"
+                    android:src="@drawable/avatar_challenge"
+                    app:layout_collapseMode="parallax"
+                    />
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/main.toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin"
+                    />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:paddingHorizontal="8dp"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp"
+                        >
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgAvatarUser"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/icon_cook"
+                            />
+
+                    <TextView
+                            android:id="@+id/tvUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Main"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:layout_marginLeft="8dp"
+                            />
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/tvFoodName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cá áp chảo"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorApp"
+                        android:layout_marginVertical="16sp"
+                        />
+
+                <TextView
+                        android:id="@+id/tvDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sau lần ăn steak ngon đến ám ảnh nhưng túi tiền không cho phép đi ăn nên tự túc là hạnh phúc"
+                        android:textColor="@android:color/black"
+                        />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_marginVertical="16dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nguyên liệu"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_resources"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_recycler"
+                        />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Các bước làm"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        />
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_step"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@android:color/white"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center_horizontal"
+                    >
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgAvatarBig"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icon_cook"
+                        android:paddingTop="24dp"
+
+                        />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Đã đăng bởi"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        android:textStyle="italic"
+                        android:paddingTop="8dp"
+                        android:gravity="center_horizontal"
+                        />
+                <TextView
+                        android:id="@+id/tvNameBig"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mail"
+                        android:textSize="24sp"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:paddingTop="8dp"
+                        android:gravity="center_horizontal"
+                        />
+
+                <TextView
+                        android:id="@+id/tvNewFood"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:text="Món mới của Mail"
+                        android:textSize="24sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"
+
+                        />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_last_food"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+
+                        />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

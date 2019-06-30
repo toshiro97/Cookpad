@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Cookpad</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_discover">Khám phá</string>
+    <string name="title_food">Món của tôi</string>
+    <string name="title_group">Cộng đồng</string>
+
+    <string name="FACEBOOK_APP_ID">1075794769295561</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">db1d797132583284ff461d958d193a47</string>
+</resources>
