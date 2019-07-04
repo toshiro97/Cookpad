@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "334283688218",
+    "firebase_url": "https://cookpad-ae7fd.firebaseio.com",
+    "project_id": "cookpad-ae7fd",
+    "storage_bucket": "cookpad-ae7fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334283688218:android:99a71af34fa2241a",
+        "android_client_info": {
+          "package_name": "com.example.cookpad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334283688218-ne3u9fk8jncqv07h16ph5g7as130q4hh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cookpad",
+            "certificate_hash": "c41a995c3c8046020597069c0cc70c4cafc8adcf"
+          }
+        },
+        {
+          "client_id": "334283688218-1kal78ej7hsgsqdpurmt27lhodglhk9u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2bQg4VftEKlMK7iUNoUd8sEnlTeTJii4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334283688218-1kal78ej7hsgsqdpurmt27lhodglhk9u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
