@@ -38,7 +38,7 @@
             />
 
     <EditText
-            android:id="@+id/tvFoodName"
+            android:id="@+id/edFoodName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorApp"
@@ -53,7 +53,6 @@
             android:layout_marginTop="24dp"
             android:text="Xong rồi ạ"
             android:textColor="@android:color/white"
-            android:enabled="false"
 
             />
 

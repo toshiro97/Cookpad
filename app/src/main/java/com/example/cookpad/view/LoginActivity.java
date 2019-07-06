@@ -24,6 +24,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.btnLogin)
@@ -102,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                                         prefManager.saveBol(Constant.STATUS_LOGIN, true);
                                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                         startActivity(intent);
+                                        customType(LoginActivity.this,"fadein-to-fadeout");
                                         progressDialog.dismiss();
                                     } else {
                                         User user = new User(phoneNumberString,"","","","");
@@ -112,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     prefManager.saveString(Constant.PHONE_NUMBER_USER, phoneNumberString);
                                                     Intent intent = new Intent(LoginActivity.this, SetInfoActivity.class);
                                                     startActivity(intent);
+                                                    customType(LoginActivity.this,"fadein-to-fadeout");
                                                     progressDialog.dismiss();
                                                 })
                                                 .addOnFailureListener(e -> {

@@ -5,10 +5,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import com.example.cookpad.R
-import androidx.fragment.app.Fragment
 import com.example.cookpad.view.fragment.discover.DiscoverFragment
 import com.example.cookpad.view.fragment.food.FoodFragment
 import com.example.cookpad.view.fragment.group.GroupFragment
+import android.content.Intent
+
+
 
 
 class HomeActivity : AppCompatActivity() {
@@ -53,5 +55,12 @@ class HomeActivity : AppCompatActivity() {
         fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit()
         fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit()
 
+    }
+
+    override fun onBackPressed() {
+        val a = Intent(Intent.ACTION_MAIN)
+        a.addCategory(Intent.CATEGORY_HOME)
+        a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(a)
     }
 }

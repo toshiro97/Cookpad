@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.cookpad.R
 import kotlinx.android.synthetic.main.activity_start.*
+import maes.tech.intentanim.CustomIntent.customType
 
 class StartActivity : AppCompatActivity() {
 
@@ -16,6 +17,8 @@ class StartActivity : AppCompatActivity() {
             val intent = Intent(this@StartActivity,LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+
+            customType(this@StartActivity,"fadein-to-fadeout");
         }
 
     }

@@ -36,7 +36,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Challenge challenge = challengeList.get(i);
-        Picasso.get().load(challenge.getUrlImage()).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).centerCrop().into(viewHolder.imgAvatar);
+        Picasso.get().load(challenge.getUrlImage()).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).fit().centerCrop().into(viewHolder.imgAvatar);
         viewHolder.tvChallenge.setText(challenge.getTitle());
         viewHolder.tvContent.setText(challenge.getContentTitle());
         viewHolder.tvTime.setText(challenge.getDate());

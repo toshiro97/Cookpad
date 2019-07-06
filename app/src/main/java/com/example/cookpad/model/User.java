@@ -1,5 +1,7 @@
 package com.example.cookpad.model;
 
+import java.util.List;
+
 public class User {
     private String id;
     private String name;
@@ -57,4 +59,5 @@ public class User {
     public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
+
 }

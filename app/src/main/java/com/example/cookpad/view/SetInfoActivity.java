@@ -34,6 +34,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.UUID;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class SetInfoActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 999;
@@ -172,6 +174,12 @@ public class SetInfoActivity extends AppCompatActivity {
                         String phoneNumber = prefManager.getString(Constant.PHONE_NUMBER_USER);
                         documentReference.document(phoneNumber).get().addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot != null) {
+                                User user = documentSnapshot.toObject(User.class);
+                                user.setBirthday( edCalendar.getText().toString().trim());
+                                user.setDescription(edDescription.getText().toString());
+                                user.setName(edFirstName.getText().toString() + edLastName.getText().toString());
+                                user.setImageUrl(downloadUri.toString());
+
                                 documentReference.document(phoneNumber).update(
                                         "birthday", edCalendar.getText().toString().trim(),
                                         "name", edFirstName.getText().toString() + edLastName.getText().toString(),
@@ -180,12 +188,10 @@ public class SetInfoActivity extends AppCompatActivity {
 
                                 ).addOnSuccessListener(aVoid -> {
                                     Toast.makeText(SetInfoActivity.this, "Cập nhật tài khoản thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(SetInfoActivity.this, HomeActivity.class);
+                                    Intent intent = new Intent(SetInfoActivity.this, CookTodayActivity.class);
                                     startActivity(intent);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                                    User user = documentSnapshot.toObject(User.class);
                                     prefManager.setUser(user);
+                                    customType(SetInfoActivity.this,"fadein-to-fadeout");
                                     progressDialog.dismiss();
                                 })
                                         .addOnFailureListener(e -> {

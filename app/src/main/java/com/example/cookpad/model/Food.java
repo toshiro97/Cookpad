@@ -1,9 +1,10 @@
 package com.example.cookpad.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Food {
-    private int id;
+public class Food implements Serializable {
+    private String id;
     private String imageUrl;
     private String title;
     private User user;
@@ -15,7 +16,7 @@ public class Food {
     public Food() {
     }
 
-    public Food(int id, String imageUrl, String title, User user, List<StepCook> stepCookList, String description, List<Comment> commentList, List<String> resources) {
+    public Food(String id, String imageUrl, String title, User user, List<StepCook> stepCookList, String description, List<Comment> commentList, List<String> resources) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.title = title;
@@ -26,11 +27,11 @@ public class Food {
         this.resources = resources;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
