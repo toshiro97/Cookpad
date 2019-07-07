@@ -62,4 +62,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
+
+    implementation 'com.facebook.shimmer:shimmer:0.4.0'
 }

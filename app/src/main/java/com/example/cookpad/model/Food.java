@@ -1,6 +1,7 @@
 package com.example.cookpad.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Food implements Serializable {
@@ -8,15 +9,16 @@ public class Food implements Serializable {
     private String imageUrl;
     private String title;
     private User user;
-    private List<StepCook> stepCookList;
+    private ArrayList<StepCook> stepCookList;
     private String description;
     private List<Comment> commentList;
     private List<String> resources;
 
+
     public Food() {
     }
 
-    public Food(String id, String imageUrl, String title, User user, List<StepCook> stepCookList, String description, List<Comment> commentList, List<String> resources) {
+    public Food(String id, String imageUrl, String title, User user, ArrayList<StepCook> stepCookList, String description, List<Comment> commentList, List<String> resources) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.title = title;
@@ -59,11 +61,11 @@ public class Food implements Serializable {
         this.user = user;
     }
 
-    public List<StepCook> getStepCookList() {
+    public ArrayList<StepCook> getStepCookList() {
         return stepCookList;
     }
 
-    public void setStepCookList(List<StepCook> stepCookList) {
+    public void setStepCookList(ArrayList<StepCook> stepCookList) {
         this.stepCookList = stepCookList;
     }
 

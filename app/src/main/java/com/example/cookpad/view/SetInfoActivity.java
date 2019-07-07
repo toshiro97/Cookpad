@@ -3,9 +3,7 @@ package com.example.cookpad.view;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -70,6 +68,8 @@ public class SetInfoActivity extends AppCompatActivity {
     private Uri filePath;
 
     PrefManager prefManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

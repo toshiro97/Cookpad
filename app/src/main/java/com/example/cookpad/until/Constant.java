@@ -8,4 +8,6 @@ public class Constant {
     public static final String STATUS_LOGIN = "STATUS_LOGIN";
 
     public static final String FOOD_USER = "FOOD_USER";
+
+    public static final String FOOD_ITEM_CLICK = "FOOD_ITEM_CLICK";
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.cookpad.R;
 import com.example.cookpad.interfaces.ItemOnClickListener;
 import com.example.cookpad.model.Food;
+import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.List;
@@ -36,7 +37,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        Food food = foodList.get(i);
 
+        Picasso.get().load(food.getUser().getImageUrl()).fit().centerCrop().into(viewHolder.imageAvatar);
+        viewHolder.tvName.setText(food.getUser().getName());
+        viewHolder.tvTime.setText("5 giờ trước");
+        viewHolder.tvNameFood.setText(food.getTitle());
+        viewHolder.tvDescription.setText(food.getDescription());
+        Picasso.get().load(food.getImageUrl()).fit().centerCrop().into(viewHolder.imgFood);
     }
 
     @Override

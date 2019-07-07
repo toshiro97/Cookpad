@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.example.cookpad.R;
 import com.example.cookpad.model.Food;
+import com.example.cookpad.model.StepCook;
 import com.example.cookpad.until.Constant;
 import com.example.cookpad.until.PrefManager;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -54,7 +55,7 @@ public class CookTodayActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnFinish)
     public void onViewClicked() {
-        if (edFooName.getText().toString().length() > 0){
+        if (edFooName.getText().toString().length() > 0) {
 
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Loading...");
@@ -63,27 +64,35 @@ public class CookTodayActivity extends AppCompatActivity {
             documentReference.document(id).get().addOnSuccessListener(documentSnapshot -> {
 
 
-                    Food food = new Food();
-                    food.setTitle(edFooName.getText().toString());
-                    food.setId(id);
+                Food food = new Food();
+                food.setTitle(edFooName.getText().toString());
+                food.setId(id);
 
-                    documentReference.document(id).set(
-                            food
-                    ).addOnSuccessListener(aVoid -> {
+                ArrayList<StepCook> stepCookList = new ArrayList<>();
 
-                        Toast.makeText(this, "Thêm món ăn thành công", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(this,CookAgainActivity.class);
-                        intent.putExtra("food_user", food);
-                        startActivity(intent);
-                        customType(CookTodayActivity.this,"fadein-to-fadeout");
-                        progressDialog.dismiss();
-                    }).addOnFailureListener(e -> {
-                        Toast.makeText(this, "Thêm móm ăn thất bại", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    });
+                stepCookList.add(new StepCook(0, "", ""));
+                stepCookList.add(new StepCook(1, "", ""));
+                stepCookList.add(new StepCook(2, "", ""));
+
+                food.setStepCookList(stepCookList);
+
+                documentReference.document(id).set(
+                        food
+                ).addOnSuccessListener(aVoid -> {
+
+                    Toast.makeText(this, "Thêm món ăn thành công", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, CookAgainActivity.class);
+                    intent.putExtra("food_user", food);
+                    startActivity(intent);
+                    customType(CookTodayActivity.this, "fadein-to-fadeout");
+                    progressDialog.dismiss();
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(this, "Thêm móm ăn thất bại", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                });
 
             });
-        }else {
+        } else {
             Toast.makeText(this, "Nhập vào món ăn", Toast.LENGTH_SHORT).show();
         }
     }

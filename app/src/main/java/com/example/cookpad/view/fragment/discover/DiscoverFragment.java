@@ -1,14 +1,12 @@
-package com.example.cookpad.view.fragment.food;
+package com.example.cookpad.view.fragment.discover;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,61 +16,50 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.cookpad.R;
 import com.example.cookpad.adapter.CookDoingAdapter;
+import com.example.cookpad.adapter.FoodAdapter;
 import com.example.cookpad.model.Food;
-import com.example.cookpad.until.CustomEditText;
 import com.example.cookpad.view.FoodInformationActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
+public class DiscoverFragment extends Fragment {
 
-public class FoodFragment extends Fragment {
-
-
-    private static final int RESULT_OK = 10;
-    private static final String TAG = "foodDoing";
-    @BindView(R.id.edSearch)
-    CustomEditText edSearch;
-    @BindView(R.id.btnAddNewFood)
-    LinearLayout btnAddNewFood;
+    private static final String TAG = "";
     @BindView(R.id.recycler_food)
     RecyclerView recyclerFood;
     @BindView(R.id.shimmerLayout)
     ShimmerFrameLayout shimmerLayout;
-    @BindView(R.id.linear)
-    LinearLayout linear;
 
     private FirebaseFirestore db;
     private CollectionReference documentReference;
-    private CookDoingAdapter cookDoingAdapter;
+    private FoodAdapter cookDoingAdapter;
     private List<Food> foodList;
 
     @Nullable
     @Override
-
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(
-                R.layout.fragment_food, container,
+        View view = inflater.inflate(R.layout.fragment_discover, container,
                 false);
 
         ButterKnife.bind(this, view);
 
-        linear.setVisibility(View.INVISIBLE);
         shimmerLayout.startShimmer();
         shimmerLayout.setVisibility(View.VISIBLE);
+        recyclerFood.setVisibility(View.INVISIBLE);
 
         db = FirebaseFirestore.getInstance();
-        documentReference = db.collection("foodDoing");
+        documentReference = db.collection("foods");
 
         foodList = new ArrayList<>();
-        cookDoingAdapter = new CookDoingAdapter(foodList, getContext(), position -> {
+        cookDoingAdapter = new FoodAdapter(foodList, getContext(), position -> {
             Intent intent = new Intent(getContext(), FoodInformationActivity.class);
             Food food = foodList.get(position);
             intent.putExtra("food_item", food);
@@ -80,72 +67,43 @@ public class FoodFragment extends Fragment {
             customType(getContext(), "fadein-to-fadeout");
 
         });
+
         getFoodList();
 
-
-        edSearch.setDrawableClickListener(target -> {
-            switch (target) {
-                case RIGHT:
-                    getSpeechInput(view);
-                    break;
-
-                default:
-                    break;
-            }
-        });
         LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                = new LinearLayoutManager(getContext());
         recyclerFood.setLayoutManager(layoutManager);
         recyclerFood.setHasFixedSize(true);
         recyclerFood.setAdapter(cookDoingAdapter);
         cookDoingAdapter.notifyDataSetChanged();
+
         return view;
     }
 
-    public void getSpeechInput(View view) {
-
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            startActivityForResult(intent, 10);
-        } else {
-            Toast.makeText(getContext(), "Your Device Don't Support Speech Input", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case 10:
-                if (resultCode == RESULT_OK && data != null) {
-                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    edSearch.setText(result.get(0));
-                }
-                break;
-        }
-    }
-
     private List<Food> getFoodList() {
+
         documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Food food = (Food) document.toObject(Food.class);
+                    Food food = document.toObject(Food.class);
                     foodList.add(food);
 
+                    cookDoingAdapter.notifyDataSetChanged();
                 }
 
-                shimmerLayout.stopShimmer();
-                shimmerLayout.setVisibility(View.INVISIBLE);
-                linear.setVisibility(View.VISIBLE);
+                final Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    // Do something after 5s = 5000ms
+                    shimmerLayout.stopShimmer();
+                    shimmerLayout.setVisibility(View.INVISIBLE);
+                    recyclerFood.setVisibility(View.VISIBLE);
+                }, 3000);
             } else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
-        cookDoingAdapter.notifyDataSetChanged();
+
+
 
         return foodList;
     }
@@ -161,4 +119,5 @@ public class FoodFragment extends Fragment {
         shimmerLayout.stopShimmer();
         super.onPause();
     }
+
 }

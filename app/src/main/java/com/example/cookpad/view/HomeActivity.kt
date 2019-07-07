@@ -5,12 +5,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import com.example.cookpad.R
-import com.example.cookpad.view.fragment.discover.DiscoverFragment
 import com.example.cookpad.view.fragment.food.FoodFragment
 import com.example.cookpad.view.fragment.group.GroupFragment
 import android.content.Intent
-
-
+import com.example.cookpad.view.fragment.discover.DiscoverFragment
 
 
 class HomeActivity : AppCompatActivity() {
@@ -25,16 +23,17 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var textMessage: TextView
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
-                fm.beginTransaction().hide(active).show(fragment1).commit();
-                active = fragment1;
-                return@OnNavigationItemSelectedListener true;
-            }
             R.id.navigation_dashboard -> {
                 fm.beginTransaction().hide(active).show(fragment2).commit();
                 active = fragment2;
                 return@OnNavigationItemSelectedListener true;
             }
+            R.id.navigation_home -> {
+                fm.beginTransaction().hide(active).show(fragment1).commit();
+                active = fragment1;
+                return@OnNavigationItemSelectedListener true;
+            }
+
             R.id.navigation_notifications -> {
                 fm.beginTransaction().hide(active).show(fragment3).commit();
                 active = fragment3;
@@ -54,6 +53,7 @@ class HomeActivity : AppCompatActivity() {
         fm.beginTransaction().add(R.id.main_container, fragment3, "3").hide(fragment3).commit()
         fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit()
         fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit()
+
 
     }
 
