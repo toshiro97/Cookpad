@@ -20,6 +20,7 @@ import com.example.cookpad.R;
 import com.example.cookpad.adapter.CookDoingAdapter;
 import com.example.cookpad.model.Food;
 import com.example.cookpad.until.CustomEditText;
+import com.example.cookpad.until.PrefManager;
 import com.example.cookpad.view.FoodInformationActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -53,6 +54,7 @@ public class FoodFragment extends Fragment {
     private CollectionReference documentReference;
     private CookDoingAdapter cookDoingAdapter;
     private List<Food> foodList;
+    private PrefManager prefManager;
 
     @Nullable
     @Override
@@ -64,6 +66,7 @@ public class FoodFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
+        prefManager = new PrefManager(getContext());
         linear.setVisibility(View.INVISIBLE);
         shimmerLayout.startShimmer();
         shimmerLayout.setVisibility(View.VISIBLE);
@@ -134,7 +137,11 @@ public class FoodFragment extends Fragment {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Food food = (Food) document.toObject(Food.class);
-                    foodList.add(food);
+                    if (food.getUser().getId().equals(prefManager.getUser().getId())) {
+                        foodList.add(food);
+                        cookDoingAdapter.notifyDataSetChanged();
+                    }
+
 
                 }
 
@@ -145,7 +152,7 @@ public class FoodFragment extends Fragment {
                 Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
-        cookDoingAdapter.notifyDataSetChanged();
+
 
         return foodList;
     }

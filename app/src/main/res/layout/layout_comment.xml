@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingVertical="16dp"
+              android:layout_gravity="top"
+
+              android:layout_marginBottom="24dp"
+
+
+        >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgAvatarComment"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/icon_cook"
+
+            />
+    <EditText
+            android:id="@+id/edComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/background_linear"
+            android:paddingVertical="8dp"
+            android:layout_gravity="top"
+            android:layout_marginHorizontal="8dp"
+
+
+
+            />
+    <TextView
+            android:id="@+id/btnPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng"
+            android:background="@drawable/background_recycler"
+            android:paddingHorizontal="15dp"
+            android:textSize="18sp"
+            android:paddingVertical="8dp"
+            android:layout_gravity="top"
+
+
+            />
+
+
+
+
+</LinearLayout>

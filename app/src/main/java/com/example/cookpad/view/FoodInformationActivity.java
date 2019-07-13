@@ -19,9 +19,11 @@ import com.example.cookpad.model.Food;
 import com.example.cookpad.model.StepCook;
 import com.example.cookpad.until.PrefManager;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -93,6 +95,8 @@ public class FoodInformationActivity extends AppCompatActivity {
     Button btnAdd2;
     @BindView(R.id.btnAdd3)
     Button btnAdd3;
+    @BindView(R.id.edDescription)
+    EditText edDescription;
 
     private Uri filePath1;
     private Uri filePath2;
@@ -104,7 +108,9 @@ public class FoodInformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food_information);
         ButterKnife.bind(this);
 
-        food = (Food) getIntent().getSerializableExtra("food_item");
+        Food foodIntent = (Food) getIntent().getSerializableExtra("food_item");
+
+
         prefManager = new PrefManager(this);
 
 
@@ -115,7 +121,14 @@ public class FoodInformationActivity extends AppCompatActivity {
         documentReferenceFood = db.collection("foods");
         documentReference = db.collection("foodDoing");
 
-        initView();
+        documentReference.document(foodIntent.getId()).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot != null){
+                food = documentSnapshot.toObject(Food.class);
+                initView();
+            }
+        });
+
+
 
 
     }
@@ -198,6 +211,7 @@ public class FoodInformationActivity extends AppCompatActivity {
         Picasso.get().load(prefManager.getUser().getImageUrl()).fit().centerCrop().into(imgAvatarUser);
         tvNameFood.setText(food.getTitle());
         tvNameUser.setText(prefManager.getUser().getName());
+        edDescription.setText(food.getDescription());
 
         if (food.getResources() != null) {
             edResources1.setText(food.getResources().get(0));
@@ -210,9 +224,21 @@ public class FoodInformationActivity extends AppCompatActivity {
             eDStep2.setText(food.getStepCookList().get(1).getContent());
             edStep3.setText(food.getStepCookList().get(2).getContent());
 
-            Picasso.get().load(food.getStepCookList().get(0).getUrlImage()).fit().centerCrop().into(imgStep1);
-            Picasso.get().load(food.getStepCookList().get(1).getUrlImage()).fit().centerCrop().into(imgStep2);
-            Picasso.get().load(food.getStepCookList().get(2).getUrlImage()).fit().centerCrop().into(imgStep3);
+            for (int i = 0; i < 3; i++) {
+                if (food.getStepCookList().get(i).getUrlImage().length() > 0) {
+                    if (i == 0){
+                        Picasso.get().load(food.getStepCookList().get(i).getUrlImage()).fit().centerCrop().into(imgStep1);
+                    }else if (i == 1){
+                        Picasso.get().load(food.getStepCookList().get(i).getUrlImage()).fit().centerCrop().into(imgStep2);
+                    }else {
+                        Picasso.get().load(food.getStepCookList().get(i).getUrlImage()).fit().centerCrop().into(imgStep3);
+                    }
+
+
+                }
+            }
+
+
 
         }
 
@@ -223,11 +249,14 @@ public class FoodInformationActivity extends AppCompatActivity {
     private void saveFoods() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         documentReference.document(food.getId()).get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot != null) {
                 Food food = documentSnapshot.toObject(Food.class);
                 List<String> resourceList = new ArrayList<>();
+
+                String description = edDescription.getText().toString();
 
                 String resource1 = edResources1.getText().toString();
                 String resource2 = edResources2.getText().toString();
@@ -237,9 +266,11 @@ public class FoodInformationActivity extends AppCompatActivity {
                 resourceList.add(resource3);
 
                 food.setResources(resourceList);
+                food.setDescription(description);
 
                 documentReference.document(food.getId()).update(
-                        "resources", resourceList
+                        "resources", resourceList,
+                        "description",description
                 ).addOnSuccessListener(aVoid -> {
                     documentReferenceFood.document(food.getId()).set(
                             food
@@ -265,56 +296,62 @@ public class FoodInformationActivity extends AppCompatActivity {
     }
 
     private void uploadStep(Uri filePath, String stepString, int id) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading...");
-        progressDialog.show();
-        StorageReference ref = storageReference.child("steps/" + UUID.randomUUID().toString());
-        UploadTask uploadTask = ref.putFile(filePath);
+
+        if (filePath != null){
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            StorageReference ref = storageReference.child("steps/" + UUID.randomUUID().toString());
+            UploadTask uploadTask = ref.putFile(filePath);
 
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
-            if (!task.isSuccessful()) {
-                throw task.getException();
-            }
+            Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
 
-            // Continue with the task to get the download URL
-            return ref.getDownloadUrl();
-        }).addOnSuccessListener(uri -> Toast.makeText(FoodInformationActivity.this, "Uploaded", Toast.LENGTH_SHORT).show()).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(FoodInformationActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Uri downloadUri = task.getResult();
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }).addOnSuccessListener(uri -> Toast.makeText(FoodInformationActivity.this, "Uploaded", Toast.LENGTH_SHORT).show()).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(FoodInformationActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
 
-                documentReference.document(food.getId()).get().addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot != null) {
-                        Food food = documentSnapshot.toObject(Food.class);
+                    documentReference.document(food.getId()).get().addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot != null) {
+                            Food food = documentSnapshot.toObject(Food.class);
 
-                        ArrayList<StepCook> stepCooks = new ArrayList<>();
-                        stepCooks = food.getStepCookList();
-                        if (stepCooks.get(id) != null) {
-                            stepCooks.set(id, new StepCook(id, stepString, downloadUri.toString()));
-                        } else {
-                            Toast.makeText(this, "abc", Toast.LENGTH_SHORT).show();
+                            ArrayList<StepCook> stepCooks = new ArrayList<>();
+                            stepCooks = food.getStepCookList();
+                            if (stepCooks.get(id) != null) {
+                                stepCooks.set(id, new StepCook(id, stepString, downloadUri.toString()));
+                            } else {
+                                Toast.makeText(this, "abc", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                            documentReference.document(food.getId()).update(
+                                    "stepCookList", stepCooks
+                            ).addOnSuccessListener(aVoid -> {
+                                Toast.makeText(this, "Cập nhật các bước thành công", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(this, "Cập nhật các bước thất bại", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            });
                         }
+                    });
+                }
 
+            });
 
-                        documentReference.document(food.getId()).update(
-                                "stepCookList", stepCooks
-                        ).addOnSuccessListener(aVoid -> {
-                            Toast.makeText(this, "Cập nhật các bước thành công", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }).addOnFailureListener(e -> {
-                            Toast.makeText(this, "Cập nhật các bước thất bại", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        });
-                    }
-                });
-            }
-
-        });
+        }else {
+            Toast.makeText(this, "Mời thêm vào các file ảnh !", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

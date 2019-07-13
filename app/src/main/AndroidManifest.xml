@@ -12,25 +12,48 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".view.FoodInformationActivity">
+        <activity android:name=".view.AddNewActivity">
         </activity>
-        <activity android:name=".view.CookAgainActivity">
+        <activity
+                android:name=".view.ChatActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".view.CookTodayActivity">
+        <activity
+                android:name=".view.FoodInformationActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".view.SetInfoActivity">
+        <activity
+                android:name=".view.CookAgainActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".view.SettingActivity">
+        <activity
+                android:name=".view.CookTodayActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".view.DetailActivity">
+        <activity
+                android:name=".view.SetInfoActivity"
+                android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+                android:name=".view.SettingActivity"
+                android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+                android:name=".view.DetailActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
                 android:name=".view.HomeActivity"
-                android:label="@string/title_activity_home">
+                android:label="@string/title_activity_home"
+                android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".view.StartActivity">
+        <activity
+                android:name=".view.StartActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".view.LoginActivity">
+        <activity
+                android:name=".view.LoginActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".view.SplashActivity">
             <intent-filter>

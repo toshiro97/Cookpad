@@ -67,4 +67,8 @@ public class PrefManager {
     public String getString(String key) {
         return pref.getString(key, "");
     }
+
+    public void deleteAll(){
+        editor.clear();
+    }
 }

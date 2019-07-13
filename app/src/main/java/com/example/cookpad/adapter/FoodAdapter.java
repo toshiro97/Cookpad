@@ -45,6 +45,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         viewHolder.tvNameFood.setText(food.getTitle());
         viewHolder.tvDescription.setText(food.getDescription());
         Picasso.get().load(food.getImageUrl()).fit().centerCrop().into(viewHolder.imgFood);
+        viewHolder.itemView.setOnClickListener(v -> itemOnClickListener.clickItem(i));
     }
 
     @Override

@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult.getAccessToken() != null) {
                     final ProgressDialog progressDialog = new ProgressDialog(this);
                     progressDialog.setMessage("Loading ...");
+                    progressDialog.setCancelable(false);
                     progressDialog.show();
                     AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
                         @Override

@@ -114,6 +114,7 @@ public class CookAgainActivity extends AppCompatActivity {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Loading...");
+            progressDialog.setCancelable(false);
             progressDialog.show();
 
             StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());

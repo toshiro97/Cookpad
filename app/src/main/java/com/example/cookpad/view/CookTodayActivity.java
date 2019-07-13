@@ -59,6 +59,7 @@ public class CookTodayActivity extends AppCompatActivity {
 
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Loading...");
+            progressDialog.setCancelable(false);
             progressDialog.show();
             String id = UUID.randomUUID().toString();
             documentReference.document(id).get().addOnSuccessListener(documentSnapshot -> {

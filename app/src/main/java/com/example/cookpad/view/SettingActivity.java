@@ -1,5 +1,6 @@
 package com.example.cookpad.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -71,6 +72,10 @@ public class SettingActivity extends AppCompatActivity {
             case R.id.tvCookpad:
                 break;
             case R.id.btnLogout:
+                Intent intent = new Intent(this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                prefManager.deleteAll();
+                startActivity(intent);
                 break;
         }
     }

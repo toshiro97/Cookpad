@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+
         >
 
     <com.google.android.material.appbar.AppBarLayout
@@ -28,7 +29,7 @@
                 >
 
             <ImageView
-                    android:id="@+id/main.backdrop"
+                    android:id="@+id/imgFoodHeader"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -51,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:paddingHorizontal="8dp"
+            android:paddingHorizontal="16dp"
             >
 
         <LinearLayout
@@ -135,12 +136,38 @@
                         android:textStyle="bold"
                         />
 
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_resources"
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/background_recycler"
-                        />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/background_linear"
+                        android:layout_marginTop="20dp"
+                        android:paddingVertical="5dp"
+
+                        >
+
+                    <EditText
+                            android:id="@+id/edResources1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            />
+
+                    <EditText
+                            android:id="@+id/edResources2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"/>
+
+                    <EditText
+                            android:id="@+id/edResources3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"/>
+
+
+                </LinearLayout>
+
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -148,10 +175,203 @@
                         android:textSize="24sp"
                         android:textStyle="bold"
                         />
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_step"
+
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:paddingHorizontal="20dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="16dp"
+                            >
+
+                        <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="1"
+                                android:padding="10dp"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp"
+                                android:gravity="center"
+                                android:background="@drawable/background_number"
+                                />
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+
+                                >
+
+                            <TextView
+                                    android:id="@+id/tvStep1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Đây là bước đầu tiên nhé"
+                                    android:paddingTop="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    />
+
+                            <ImageView
+                                    android:id="@+id/imgStep1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:src="@drawable/background"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+
+                                    android:padding="10dp"
+                                    />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:paddingHorizontal="20dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="16dp"
+                            >
+
+                        <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="2"
+                                android:padding="10dp"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp"
+                                android:gravity="center"
+                                android:background="@drawable/background_number"
+                                />
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+
+                                >
+
+                            <TextView
+                                    android:id="@+id/tvStep2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Đây là bước đầu tiên nhé"
+                                    android:paddingTop="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    />
+
+                            <ImageView
+                                    android:id="@+id/imgStep2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:src="@drawable/background"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+
+                                    android:padding="10dp"
+                                    />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:paddingHorizontal="20dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="16dp"
+                            >
+
+                        <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="3"
+                                android:padding="10dp"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp"
+                                android:gravity="center"
+                                android:background="@drawable/background_number"
+                                />
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+
+                                >
+
+                            <TextView
+                                    android:id="@+id/tvStep3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Đây là bước đầu tiên nhé"
+                                    android:paddingTop="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    />
+
+                            <ImageView
+                                    android:id="@+id/imgStep3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:src="@drawable/background"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+
+                                    android:padding="10dp"
+                                    />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -162,6 +382,7 @@
                     android:layout_marginTop="24dp"
                     android:gravity="center_horizontal"
                     >
+
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imgAvatarBig"
                         android:layout_width="100dp"
@@ -170,6 +391,7 @@
                         android:paddingTop="24dp"
 
                         />
+
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -180,6 +402,7 @@
                         android:paddingTop="8dp"
                         android:gravity="center_horizontal"
                         />
+
                 <TextView
                         android:id="@+id/tvNameBig"
                         android:layout_width="match_parent"
@@ -209,9 +432,29 @@
                         android:id="@+id/recycler_last_food"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="24dp"/>
+
+                <!--/>-->
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nhận xét"
+                        android:textSize="24sp"
+                        android:textColor="@color/colorApp"
+                        android:layout_marginVertical="16dp"
+                        />
+
+
+                <include
+                        layout="@layout/layout_comment"
 
                         />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
 
             </LinearLayout>
         </LinearLayout>
