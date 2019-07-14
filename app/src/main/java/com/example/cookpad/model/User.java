@@ -1,6 +1,7 @@
 package com.example.cookpad.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
@@ -9,16 +10,18 @@ public class User implements Serializable {
     private String imageUrl;
     private String description;
     private String birthday;
+    private ArrayList<String> listFriend;
 
     public User() {
     }
 
-    public User(String id, String name, String imageUrl, String description, String birthday) {
+    public User(String id, String name, String imageUrl, String description, String birthday, ArrayList<String> listFriend) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.description = description;
         this.birthday = birthday;
+        this.listFriend = listFriend;
     }
 
     public String getId() {
@@ -61,4 +64,11 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
+    public ArrayList<String> getListFriend() {
+        return listFriend;
+    }
+
+    public void setListFriend(ArrayList<String> listFriend) {
+        this.listFriend = listFriend;
+    }
 }

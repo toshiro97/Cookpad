@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import com.example.cookpad.R;
 import com.example.cookpad.model.User;
 import com.example.cookpad.until.PrefManager;
+import com.example.cookpad.view.ListFriendActivity;
 import com.example.cookpad.view.SettingActivity;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,7 +42,7 @@ public class GroupFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_group, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         prefManager = new PrefManager(getContext());
         User user = prefManager.getUser();
@@ -58,13 +59,16 @@ public class GroupFragment extends Fragment {
             case R.id.imgAvatar:
                 Intent intent = new Intent(getContext(), SettingActivity.class);
                 startActivity(intent);
-                customType(getContext(),"fadein-to-fadeout");
+                customType(getContext(), "fadein-to-fadeout");
                 break;
             case R.id.btnKitchen:
                 break;
             case R.id.btnBox:
                 break;
             case R.id.btnMessenger:
+                Intent intent1 = new Intent(getContext(), ListFriendActivity.class);
+                startActivity(intent1);
+                customType(getContext(), "fadein-to-fadeout");
                 break;
         }
     }

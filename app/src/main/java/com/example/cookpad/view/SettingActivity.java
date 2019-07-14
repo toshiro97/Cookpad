@@ -11,8 +11,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.example.cookpad.R;
 import com.example.cookpad.until.PrefManager;
+import com.example.cookpad.view.fragment.EditInfoActivity;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -58,6 +61,9 @@ public class SettingActivity extends AppCompatActivity {
             case R.id.tvViewChicken:
                 break;
             case R.id.tvEditProfile:
+                Intent intentProfile = new Intent(this, EditInfoActivity.class);
+                startActivity(intentProfile);
+                customType(SettingActivity.this,"fadein-to-fadeout");
                 break;
             case R.id.tvNotification:
                 break;

@@ -34,6 +34,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
                     >
                 <TextView
                         android:id="@+id/tvName"
@@ -53,6 +54,17 @@
                         />
 
             </LinearLayout>
+
+            <Button
+                    android:id="@+id/btnAddFriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_linear"
+                    android:text="Kết bạn"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:layout_gravity="right"
+
+                    />
 
 
         </LinearLayout>

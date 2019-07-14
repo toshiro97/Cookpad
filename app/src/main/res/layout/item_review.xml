@@ -35,11 +35,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Steven"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorApp"
                     android:textSize="24sp"
-                    android:layout_marginTop="10dp"
-
-
+                    android:textStyle="bold"
 
                     />
 

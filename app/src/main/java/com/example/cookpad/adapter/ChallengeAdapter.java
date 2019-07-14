@@ -40,12 +40,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
         viewHolder.tvChallenge.setText(challenge.getTitle());
         viewHolder.tvContent.setText(challenge.getContentTitle());
         viewHolder.tvTime.setText(challenge.getDate());
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemOnClickListener.clickItem(i);
-            }
-        });
+        viewHolder.itemView.setOnClickListener(v -> itemOnClickListener.clickItem(i));
 
     }
 

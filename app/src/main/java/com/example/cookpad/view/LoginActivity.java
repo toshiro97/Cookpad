@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                                         customType(LoginActivity.this,"fadein-to-fadeout");
                                         progressDialog.dismiss();
                                     } else {
-                                        User user = new User(phoneNumberString,"","","","");
+                                        User user = new User(phoneNumberString,"","","","",null);
                                         documentReference.document(phoneNumberString)
                                                 .set(user)
                                                 .addOnSuccessListener(aVoid -> {

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="5dp"
+        android:elevation="5dp"
+        android:layout_marginBottom="16dp"
+
+        >
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/icon_cook"
+                android:padding="8dp"
+                />
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+            <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Khắc Hưng"
+                    android:textSize="24sp"
+                    android:textColor="@android:color/holo_green_light"
+                    />
+            <TextView
+                    android:id="@+id/tvLastMess"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ACCOUNT_KIT_CLIENT_TOKEN"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="8dp"
+                    />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

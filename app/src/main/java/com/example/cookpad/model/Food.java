@@ -13,14 +13,13 @@ public class Food implements Serializable {
     private String description;
     private List<Comment> commentList;
     private List<String> resources;
-    private List<String> friends;
 
 
     public Food() {
     }
 
     public Food(String id, String imageUrl, String title, User user, ArrayList<StepCook> stepCookList,
-                String description, List<Comment> commentList, List<String> resources, List<String> friends) {
+                String description, List<Comment> commentList, List<String> resources) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.title = title;
@@ -29,7 +28,6 @@ public class Food implements Serializable {
         this.description = description;
         this.commentList = commentList;
         this.resources = resources;
-        this.friends = friends;
     }
 
     public String getId() {
@@ -96,11 +94,5 @@ public class Food implements Serializable {
         this.resources = resources;
     }
 
-    public List<String> getFriends() {
-        return friends;
-    }
 
-    public void setFriends(List<String> friends) {
-        this.friends = friends;
-    }
 }

@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.example.cookpad.R;
 import com.example.cookpad.adapter.CookDoingAdapter;
 import com.example.cookpad.model.Food;
 import com.example.cookpad.until.CustomEditText;
 import com.example.cookpad.until.PrefManager;
+import com.example.cookpad.view.AddNewActivity;
 import com.example.cookpad.view.FoodInformationActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -167,5 +169,12 @@ public class FoodFragment extends Fragment {
     public void onPause() {
         shimmerLayout.stopShimmer();
         super.onPause();
+    }
+
+    @OnClick(R.id.btnAddNewFood)
+    public void onViewClicked() {
+        Intent intent = new Intent(getContext(), AddNewActivity.class);
+        startActivity(intent);
+        customType(getContext(), "fadein-to-fadeout");
     }
 }

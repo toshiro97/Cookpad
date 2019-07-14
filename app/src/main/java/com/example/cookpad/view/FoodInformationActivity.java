@@ -60,7 +60,7 @@ public class FoodInformationActivity extends AppCompatActivity {
     EditText eDStep2;
     @BindView(R.id.imgStep2)
     ImageView imgStep2;
-    @BindView(R.id.edStep3)
+    @BindView(R.id.eDStep3)
     EditText edStep3;
     @BindView(R.id.imgStep3)
     ImageView imgStep3;
@@ -82,31 +82,29 @@ public class FoodInformationActivity extends AppCompatActivity {
     @BindView(R.id.tvNameUser)
     TextView tvNameUser;
 
-    Boolean bImgStep1;
-    Boolean bImgStep2;
-    Boolean bImgStep3;
+    Boolean bImgStep1 = false;
+    Boolean bImgStep2 = false;
+    Boolean bImgStep3 = false;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.appBarLayout)
     AppBarLayout appBarLayout;
-    @BindView(R.id.btnAdd1)
-    Button btnAdd1;
-    @BindView(R.id.btnAdd2)
-    Button btnAdd2;
-    @BindView(R.id.btnAdd3)
-    Button btnAdd3;
     @BindView(R.id.edDescription)
     EditText edDescription;
 
     private Uri filePath1;
     private Uri filePath2;
     private Uri filePath3;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_information);
         ButterKnife.bind(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Đợi tý nhé ...");
+        progressDialog.setCancelable(false);
 
         Food foodIntent = (Food) getIntent().getSerializableExtra("food_item");
 
@@ -122,18 +120,16 @@ public class FoodInformationActivity extends AppCompatActivity {
         documentReference = db.collection("foodDoing");
 
         documentReference.document(foodIntent.getId()).get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot != null){
+            if (documentSnapshot != null) {
                 food = documentSnapshot.toObject(Food.class);
                 initView();
             }
         });
 
 
-
-
     }
 
-    @OnClick({R.id.btnClose, R.id.btnAired, R.id.imgStep1, R.id.imgStep2, R.id.imgStep3, R.id.btnAdd1, R.id.btnAdd2, R.id.btnAdd3})
+    @OnClick({R.id.btnClose, R.id.btnAired, R.id.imgStep1, R.id.imgStep2, R.id.imgStep3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnClose:
@@ -154,15 +150,7 @@ public class FoodInformationActivity extends AppCompatActivity {
                 bImgStep3 = true;
                 chooseImage();
                 break;
-            case R.id.btnAdd1:
-                uploadStep(filePath1, eDStep1.getText().toString(), 0);
-                break;
-            case R.id.btnAdd2:
-                uploadStep(filePath2, eDStep2.getText().toString(), 1);
-                break;
-            case R.id.btnAdd3:
-                uploadStep(filePath3, edStep3.getText().toString(), 2);
-                break;
+
         }
     }
 
@@ -180,30 +168,77 @@ public class FoodInformationActivity extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             if (bImgStep1) {
                 filePath1 = data.getData();
+                uploadStep(filePath1);
             } else if (bImgStep2) {
                 filePath2 = data.getData();
+                uploadStep(filePath2);
             } else if (bImgStep3) {
                 filePath3 = data.getData();
+                uploadStep(filePath3);
             }
             try {
                 if (bImgStep1) {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath1);
                     imgStep1.setImageBitmap(bitmap);
-                    bImgStep1 = false;
+
+
                 } else if (bImgStep2) {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath2);
                     imgStep2.setImageBitmap(bitmap);
-                    bImgStep2 = false;
+
+
                 } else if (bImgStep3) {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath3);
                     imgStep3.setImageBitmap(bitmap);
-                    bImgStep3 = false;
+
+
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void uploadStep(Uri filePath) {
+
+        if (filePath != null) {
+
+            progressDialog.show();
+            StorageReference ref = storageReference.child("steps/" + UUID.randomUUID().toString());
+            UploadTask uploadTask = ref.putFile(filePath);
+
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }).addOnSuccessListener(uri -> Toast.makeText(FoodInformationActivity.this, "Uploaded", Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(FoodInformationActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show()).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (bImgStep1) {
+                        filePath1 = task.getResult();
+                        progressDialog.dismiss();
+                        bImgStep1 = false;
+                    } else if (bImgStep2) {
+                        filePath2 = task.getResult();
+                        progressDialog.dismiss();
+                        bImgStep2 = false;
+                    } else if (bImgStep3) {
+                        filePath3 = task.getResult();
+                        progressDialog.dismiss();
+                        bImgStep3 = false;
+                    }
+
+                }
+            });
+
+        } else {
+            Toast.makeText(this, "Mời thêm vào các file ảnh !", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void initView() {
@@ -226,18 +261,20 @@ public class FoodInformationActivity extends AppCompatActivity {
 
             for (int i = 0; i < 3; i++) {
                 if (food.getStepCookList().get(i).getUrlImage().length() > 0) {
-                    if (i == 0){
+                    if (i == 0) {
                         Picasso.get().load(food.getStepCookList().get(i).getUrlImage()).fit().centerCrop().into(imgStep1);
-                    }else if (i == 1){
+                        filePath1 = Uri.parse(food.getStepCookList().get(i).getUrlImage());
+                    } else if (i == 1) {
                         Picasso.get().load(food.getStepCookList().get(i).getUrlImage()).fit().centerCrop().into(imgStep2);
-                    }else {
+                        filePath2 = Uri.parse(food.getStepCookList().get(i).getUrlImage());
+                    } else {
                         Picasso.get().load(food.getStepCookList().get(i).getUrlImage()).fit().centerCrop().into(imgStep3);
+                        filePath3 = Uri.parse(food.getStepCookList().get(i).getUrlImage());
                     }
 
 
                 }
             }
-
 
 
         }
@@ -247,110 +284,62 @@ public class FoodInformationActivity extends AppCompatActivity {
 
 
     private void saveFoods() {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        documentReference.document(food.getId()).get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot != null) {
-                Food food = documentSnapshot.toObject(Food.class);
-                List<String> resourceList = new ArrayList<>();
 
-                String description = edDescription.getText().toString();
-
-                String resource1 = edResources1.getText().toString();
-                String resource2 = edResources2.getText().toString();
-                String resource3 = edResources3.getText().toString();
-                resourceList.add(resource1);
-                resourceList.add(resource2);
-                resourceList.add(resource3);
-
-                food.setResources(resourceList);
-                food.setDescription(description);
-
-                documentReference.document(food.getId()).update(
-                        "resources", resourceList,
-                        "description",description
-                ).addOnSuccessListener(aVoid -> {
-                    documentReferenceFood.document(food.getId()).set(
-                            food
-                    ).addOnSuccessListener(aVoid1 -> {
-                        finish();
-                        Toast.makeText(this, "Cập nhật món ăn thành công", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    }).addOnFailureListener(e -> {
-                        finish();
-                        Toast.makeText(this, "Cập nhật món ăn thất bại", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    });
-
-                }).addOnFailureListener(e -> {
-
-
-                });
-
-
-            }
-        });
-
-    }
-
-    private void uploadStep(Uri filePath, String stepString, int id) {
-
-        if (filePath != null){
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
+        if (edDescription.getText().toString().length() > 0
+                && edResources1.getText().toString().length() > 0 && edResources2.getText().toString().length() > 0
+                && edResources3.getText().toString().length() > 0 && eDStep1.getText().toString().length() > 0
+                && eDStep2.getText().toString().length() > 0 && edStep3.getText().toString().length() > 0
+                && filePath1.toString().length() > 0
+                && filePath2.toString().length() > 0
+                && filePath3.toString().length() > 0) {
             progressDialog.show();
-            StorageReference ref = storageReference.child("steps/" + UUID.randomUUID().toString());
-            UploadTask uploadTask = ref.putFile(filePath);
+            documentReference.document(food.getId()).get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot != null) {
+                    Food food = documentSnapshot.toObject(Food.class);
+                    List<String> resourceList = new ArrayList<>();
+                    List<StepCook> stepCookList = new ArrayList<>();
+
+                    String description = edDescription.getText().toString();
+
+                    stepCookList.add(new StepCook(0, eDStep1.getText().toString(), filePath1.toString()));
+                    stepCookList.add(new StepCook(0, eDStep2.getText().toString(), filePath2.toString()));
+                    stepCookList.add(new StepCook(0, edStep3.getText().toString(), filePath3.toString()));
+
+                    String resource1 = edResources1.getText().toString();
+                    String resource2 = edResources2.getText().toString();
+                    String resource3 = edResources3.getText().toString();
+                    resourceList.add(resource1);
+                    resourceList.add(resource2);
+                    resourceList.add(resource3);
+
+                    food.setResources(resourceList);
+                    food.setDescription(description);
+
+                    documentReference.document(food.getId()).update(
+                            "resources", resourceList,
+                            "description", description,
+                            "stepCookList", stepCookList
+                    ).addOnSuccessListener(aVoid -> {
+                        documentReferenceFood.document(food.getId()).set(
+                                food
+                        ).addOnSuccessListener(aVoid1 -> {
+                            finish();
+                            Toast.makeText(this, "Cập nhật món ăn thành công", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }).addOnFailureListener(e -> {
+                            finish();
+                            Toast.makeText(this, "Cập nhật món ăn thất bại", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        });
+
+                    }).addOnFailureListener(e -> {
 
 
-            Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
-
-                // Continue with the task to get the download URL
-                return ref.getDownloadUrl();
-            }).addOnSuccessListener(uri -> Toast.makeText(FoodInformationActivity.this, "Uploaded", Toast.LENGTH_SHORT).show()).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(FoodInformationActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-
-                    documentReference.document(food.getId()).get().addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot != null) {
-                            Food food = documentSnapshot.toObject(Food.class);
-
-                            ArrayList<StepCook> stepCooks = new ArrayList<>();
-                            stepCooks = food.getStepCookList();
-                            if (stepCooks.get(id) != null) {
-                                stepCooks.set(id, new StepCook(id, stepString, downloadUri.toString()));
-                            } else {
-                                Toast.makeText(this, "abc", Toast.LENGTH_SHORT).show();
-                            }
-
-
-                            documentReference.document(food.getId()).update(
-                                    "stepCookList", stepCooks
-                            ).addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Cập nhật các bước thành công", Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            }).addOnFailureListener(e -> {
-                                Toast.makeText(this, "Cập nhật các bước thất bại", Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            });
-                        }
                     });
+
+
                 }
-
             });
-
-        }else {
-            Toast.makeText(this, "Mời thêm vào các file ảnh !", Toast.LENGTH_SHORT).show();
         }
 
     }

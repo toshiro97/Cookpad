@@ -1,4 +1,4 @@
-package com.example.cookpad.view;
+package com.example.cookpad.view.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -8,7 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
@@ -18,7 +21,10 @@ import com.example.cookpad.R;
 import com.example.cookpad.model.User;
 import com.example.cookpad.until.Constant;
 import com.example.cookpad.until.PrefManager;
-import com.google.android.gms.tasks.*;
+import com.example.cookpad.view.CookTodayActivity;
+import com.example.cookpad.view.SetInfoActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,10 +41,10 @@ import java.util.UUID;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
-public class SetInfoActivity extends AppCompatActivity {
-
+public class EditInfoActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 999;
     private static final int RESULT_LOAD_IMAGE = 888;
+
     @BindView(R.id.circleImageView)
     CircleImageView circleImageView;
     @BindView(R.id.imgTakePicture)
@@ -70,12 +76,10 @@ public class SetInfoActivity extends AppCompatActivity {
 
     PrefManager prefManager;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_info);
+        setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
 
         storage = FirebaseStorage.getInstance();
@@ -85,7 +89,6 @@ public class SetInfoActivity extends AppCompatActivity {
         documentReference = db.collection("user");
 
         prefManager = new PrefManager(this);
-
         initView();
 
         final DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
@@ -101,21 +104,6 @@ public class SetInfoActivity extends AppCompatActivity {
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show());
     }
 
-    private void initView() {
-        if (prefManager.getUser().getDescription().length() > 0){
-            edDescription.setText(prefManager.getUser().getDescription());
-        }
-        if (prefManager.getUser().getName().length() > 0){
-            edFirstName.setText(prefManager.getUser().getName());
-        }
-        if (prefManager.getUser().getBirthday().length() > 0){
-            edCalendar.setText(prefManager.getUser().getBirthday());
-        }
-        if (prefManager.getUser().getImageUrl().length() > 0){
-            Picasso.get().load(prefManager.getUser().getImageUrl()).into(imgTakePicture);
-        }
-    }
-
     @OnClick({R.id.imgTakePicture, R.id.btnRegister})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -127,6 +115,21 @@ public class SetInfoActivity extends AppCompatActivity {
                 break;
         }
     }
+    private void initView() {
+        if (prefManager.getUser().getDescription().length() > 0){
+            edDescription.setText(prefManager.getUser().getDescription());
+        }
+        if (prefManager.getUser().getName().length() > 0){
+            edFirstName.setText(prefManager.getUser().getName());
+        }
+        if (prefManager.getUser().getBirthday().length() > 0){
+            edCalendar.setText(prefManager.getUser().getBirthday());
+        }
+        if (prefManager.getUser().getImageUrl().length() > 0){
+            Picasso.get().load(prefManager.getUser().getImageUrl()).into(circleImageView);
+        }
+    }
+
 
     private void chooseImage() {
         Intent intent = new Intent();
@@ -180,17 +183,17 @@ public class SetInfoActivity extends AppCompatActivity {
 
                     // Continue with the task to get the download URL
                     return ref.getDownloadUrl();
-                }).addOnSuccessListener(uri -> Toast.makeText(SetInfoActivity.this, "Uploaded", Toast.LENGTH_SHORT).show()).addOnFailureListener(new OnFailureListener() {
+                }).addOnSuccessListener(uri -> Toast.makeText(EditInfoActivity.this, "Uploaded", Toast.LENGTH_SHORT).show()).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(SetInfoActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditInfoActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
 
-                        String phoneNumber = prefManager.getString(Constant.PHONE_NUMBER_USER);
+                        String phoneNumber = prefManager.getUser().getId();
                         documentReference.document(phoneNumber).get().addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot != null) {
                                 User user = documentSnapshot.toObject(User.class);
@@ -206,22 +209,20 @@ public class SetInfoActivity extends AppCompatActivity {
                                         "description", edDescription.getText().toString()
 
                                 ).addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(SetInfoActivity.this, "Cập nhật tài khoản thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(SetInfoActivity.this, CookTodayActivity.class);
-                                    startActivity(intent);
+                                    Toast.makeText(EditInfoActivity.this, "Cập nhật tài khoản thành công", Toast.LENGTH_SHORT).show();
+                                    finish();
                                     prefManager.setUser(user);
-                                    customType(SetInfoActivity.this,"fadein-to-fadeout");
                                     progressDialog.dismiss();
                                 })
                                         .addOnFailureListener(e -> {
-                                            Toast.makeText(SetInfoActivity.this, "Cập nhật tài khoản thất bại", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EditInfoActivity.this, "Cập nhật tài khoản thất bại", Toast.LENGTH_SHORT).show();
                                             progressDialog.dismiss();
                                         });
                             }
                         });
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(SetInfoActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditInfoActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -232,4 +233,6 @@ public class SetInfoActivity extends AppCompatActivity {
             Toast.makeText(this, "Mời nhập vào đầy đủ các trường !!!", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }
