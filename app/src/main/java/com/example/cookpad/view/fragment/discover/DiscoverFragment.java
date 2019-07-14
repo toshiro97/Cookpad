@@ -3,8 +3,6 @@ package com.example.cookpad.view.fragment.discover;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.RecognizerIntent;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.Toast;
@@ -15,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.cookpad.R;
@@ -28,7 +27,6 @@ import com.example.cookpad.view.DetailActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -50,6 +48,8 @@ public class DiscoverFragment extends Fragment {
     MaterialSearchView searchView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.swipeRefresh)
+    SwipeRefreshLayout swipeRefresh;
 
     private FirebaseFirestore db;
     private CollectionReference documentReference;
@@ -68,8 +68,8 @@ public class DiscoverFragment extends Fragment {
         ButterKnife.bind(this, view);
         prefManager = new PrefManager(getContext());
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setLogo(R.drawable.logo);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setLogo(R.drawable.logo);
 
         setHasOptionsMenu(true);
         initSearchView();
@@ -89,7 +89,7 @@ public class DiscoverFragment extends Fragment {
             startActivity(intent);
             customType(getContext(), "fadein-to-fadeout");
 
-        }, position -> addFriend(position,foodList), new AddCookOnClickListener() {
+        }, position -> addFriend(position, foodList), new AddCookOnClickListener() {
             @Override
             public void clickItem(int position) {
 
@@ -104,6 +104,13 @@ public class DiscoverFragment extends Fragment {
         recyclerFood.setHasFixedSize(true);
         recyclerFood.setAdapter(cookDoingAdapter);
         cookDoingAdapter.notifyDataSetChanged();
+
+        swipeRefresh.setOnRefreshListener(() -> {
+            swipeRefresh.setRefreshing(true);
+            foodList.clear();
+            getFoodList();
+
+        });
 
         return view;
     }
@@ -124,7 +131,10 @@ public class DiscoverFragment extends Fragment {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Food food = document.toObject(Food.class);
                     foodList.add(food);
-
+                    cookDoingAdapter.notifyDataSetChanged();
+                }
+                if (swipeRefresh.isRefreshing()){
+                    swipeRefresh.setRefreshing(false);
                     cookDoingAdapter.notifyDataSetChanged();
                 }
 
@@ -134,7 +144,7 @@ public class DiscoverFragment extends Fragment {
                     shimmerLayout.stopShimmer();
                     shimmerLayout.setVisibility(View.INVISIBLE);
                     recyclerFood.setVisibility(View.VISIBLE);
-                }, 3000);
+                }, 2000);
             } else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
             }
@@ -144,10 +154,10 @@ public class DiscoverFragment extends Fragment {
         return foodList;
     }
 
-    private void addFriend(int position,List<Food> foods){
+    private void addFriend(int position, List<Food> foods) {
         Food food = foods.get(position);
-        ArrayList<String> listFriend ;
-        
+        ArrayList<String> listFriend;
+
         if (prefManager.getUser().getListFriend() == null) {
             listFriend = new ArrayList<>();
             listFriend.add(food.getUser().getId());
@@ -156,26 +166,25 @@ public class DiscoverFragment extends Fragment {
                 Toast.makeText(getContext(), "Thêm bạn thành công ", Toast.LENGTH_SHORT).show();
                 documentReferenceUser.document(food.getUser().getId()).get().addOnSuccessListener(documentSnapshot -> {
                     ArrayList<String> listFriendRecei;
-                    if (documentSnapshot.toObject(User.class).getListFriend() == null){
+                    if (documentSnapshot.toObject(User.class).getListFriend() == null) {
 
                         listFriendRecei = new ArrayList<>();
                         listFriend.add(prefManager.getUser().getId());
-                        
-                        documentReferenceUser.document(food.getUser().getId()).update("listFriend",listFriendRecei).addOnSuccessListener(aVoid1 -> {
+
+                        documentReferenceUser.document(food.getUser().getId()).update("listFriend", listFriendRecei).addOnSuccessListener(aVoid1 -> {
                             Toast.makeText(getContext(), "hihi", Toast.LENGTH_SHORT).show();
                         });
-                        
-                    }else {
+
+                    } else {
                         listFriendRecei = documentSnapshot.toObject(User.class).getListFriend();
-                        documentReferenceUser.document(food.getUser().getId()).update("listFriend",listFriendRecei).addOnSuccessListener(aVoid1 -> {
+                        documentReferenceUser.document(food.getUser().getId()).update("listFriend", listFriendRecei).addOnSuccessListener(aVoid1 -> {
                             Toast.makeText(getContext(), "hihi", Toast.LENGTH_SHORT).show();
                         });
                     }
-                    
+
                 });
             });
-        }
-        else {
+        } else {
             listFriend = prefManager.getUser().getListFriend();
             listFriend.add(food.getUser().getId());
 
@@ -188,7 +197,7 @@ public class DiscoverFragment extends Fragment {
         }
     }
 
-    private void initSearchView(){
+    private void initSearchView() {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -199,37 +208,37 @@ public class DiscoverFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //Do some magic
-                if (newText != null && !newText.isEmpty()){
+                if (newText != null && !newText.isEmpty()) {
                     ArrayList<Food> listFound = new ArrayList<>();
-                    for (Food food: foodList) {
-                        if (food.getTitle().contains(newText)){
+                    for (Food food : foodList) {
+                        if (food.getTitle().contains(newText)) {
                             listFound.add(food);
                         }
                     }
 
-                     FoodAdapter cookDoingAdapterSearch = new FoodAdapter(listFound, getContext(), position -> {
-                         Intent intent = new Intent(getContext(), DetailActivity.class);
-                         Food food = listFound.get(position);
-                         intent.putExtra("food_item", food);
-                         startActivity(intent);
-                         customType(getContext(), "fadein-to-fadeout");
+                    FoodAdapter cookDoingAdapterSearch = new FoodAdapter(listFound, getContext(), position -> {
+                        Intent intent = new Intent(getContext(), DetailActivity.class);
+                        Food food = listFound.get(position);
+                        intent.putExtra("food_item", food);
+                        startActivity(intent);
+                        customType(getContext(), "fadein-to-fadeout");
 
-                     }, new AddFriendOnClickListener() {
-                         @Override
-                         public void clickItem(int position) {
+                    }, new AddFriendOnClickListener() {
+                        @Override
+                        public void clickItem(int position) {
+                            addFriend(position,listFound);
 
-                         }
-                     }, new AddCookOnClickListener() {
-                         @Override
-                         public void clickItem(int position) {
+                        }
+                    }, new AddCookOnClickListener() {
+                        @Override
+                        public void clickItem(int position) {
 
-                         }
-                     });
+                        }
+                    });
 
                     recyclerFood.setAdapter(cookDoingAdapterSearch);
 
-                }
-                else {
+                } else {
                     FoodAdapter cookDoingAdapterSearch = new FoodAdapter(foodList, getContext(), position -> {
                         Intent intent = new Intent(getContext(), DetailActivity.class);
                         Food food = foodList.get(position);
@@ -273,14 +282,19 @@ public class DiscoverFragment extends Fragment {
     public void onResume() {
         super.onResume();
         shimmerLayout.startShimmer();
+        Log.d("ONPAUSE", "onResume: ");
     }
 
     @Override
     public void onPause() {
         shimmerLayout.stopShimmer();
+        Log.d("ONPAUSE", "onPause: ");
         super.onPause();
     }
 
-
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("ONPAUSE", "onStop: ");
+    }
 }

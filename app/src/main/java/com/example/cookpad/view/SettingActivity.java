@@ -85,4 +85,22 @@ public class SettingActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    private void initView(){
+        tvNameUser.setText(prefManager.getUser().getName());
+        Picasso.get().load(prefManager.getUser().getImageUrl()).into(imgAvatar);
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initView();
+    }
 }
